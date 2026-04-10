@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { LayoutDashboard, FileText, Users, BarChart3, Settings, LogOut, Search, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, BarChart3, Settings, LogOut, Search, Menu, X, Facebook, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './Dashboard.module.css';
@@ -28,6 +28,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const [userName,    setUserName]    = useState('');
   const [userEmail,   setUserEmail]   = useState('');
+  const [avatarUrl,   setAvatarUrl]   = useState<string | undefined>(undefined);
   const [role,        setRole]        = useState<'teacher' | 'student' | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -45,6 +46,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       setRole(userRole);
       setUserName(uName);
+      setAvatarUrl(profile.avatar_url || undefined);
 
       // Redirect to correct dashboard if on wrong one
       const isTeacherPath = pathname.startsWith('/dashboard/teacher');
@@ -65,7 +67,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push('/login');
   };
 
-  const navItems = role === 'student' ? studentNav : teacherNav;
+  const navItems = role === 'student' ? studentNav : (role === 'teacher' ? teacherNav : []);
   const initial  = userName ? userName[0] : '؟';
 
   return (
@@ -104,15 +106,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <div className={styles.sidebarFooter}>
           <div className={styles.userCard}>
-            <div className={styles.avatarSm}>{initial}</div>
+            <div className={styles.avatarSm}>
+              {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
+            </div>
             <div style={{ minWidth: 0 }}>
-              <p className={styles.userName}>{userName}</p>
-              <p className={styles.userRole}>{role === 'teacher' ? 'معلم' : 'طالب'}</p>
+              <p className={styles.userName}>{userName || 'جاري التحميل...'}</p>
+              {role && <p className={styles.userRole}>{role === 'teacher' ? 'معلم' : 'طالب'}</p>}
             </div>
           </div>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             <LogOut size={18} /><span>تسجيل الخروج</span>
           </button>
+
+          <div className={styles.devCredit}>
+            <p className={styles.devLabel}>تم التطوير بواسطة</p>
+            <p className={styles.devName}>Ahmed Magdy</p>
+            <div className={styles.devLinks}>
+              <a href="https://wa.me/201140440601" target="_blank" rel="noopener noreferrer" className={styles.devLink} title="WhatsApp">
+                <MessageCircle size={14} />
+              </a>
+              <a href="https://www.facebook.com/share/18SxYqEHGU/" target="_blank" rel="noopener noreferrer" className={styles.devLink} title="Facebook">
+                <Facebook size={14} />
+              </a>
+            </div>
+          </div>
         </div>
       </aside>
 
@@ -126,7 +143,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <input type="text" placeholder="بحث..." />
           </div>
           <div className={styles.topRight}>
-            <div className={styles.avatarTop} title={userEmail}>{initial}</div>
+            <div className={styles.avatarTop} title={userEmail}>
+              {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
+            </div>
           </div>
         </header>
 

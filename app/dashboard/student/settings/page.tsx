@@ -11,6 +11,7 @@ import styles from '../../teacher/settings/Settings.module.css';
 export default function StudentSettingsPage() {
   const [name,    setName]    = useState('');
   const [email,   setEmail]   = useState('');
+  const [avatar,  setAvatar]  = useState<string | undefined>(undefined);
   const [saving,  setSaving]  = useState(false);
   const [pwLoading, setPwLoading] = useState(false);
   const [msg,     setMsg]     = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
@@ -22,9 +23,25 @@ export default function StudentSettingsPage() {
         setEmail(data.user.email || '');
         const profile = await getUserProfile(data.user.id);
         setName(profile.name);
+        setAvatar(profile.avatar_url);
       }
     });
   }, []);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setMsg({ type: 'err', text: 'حجم الصورة كبير جداً (الأقصى 2MB)' });
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const saveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +51,8 @@ export default function StudentSettingsPage() {
       if (!ud?.user?.id) throw new Error('no user');
       const { error } = await insforge.database
         .from('profiles')
-        .upsert([{ id: ud.user.id, name, role: 'student' }])
-        .select();
+        .update({ name, avatar_url: avatar })
+        .eq('id', ud.user.id);
       if (error) throw error;
       setMsg({ type: 'ok', text: 'تم حفظ الملف الشخصي بنجاح!' });
     } catch (err: any) {
@@ -71,6 +88,19 @@ export default function StudentSettingsPage() {
               </div>
             )}
             <form onSubmit={saveProfile} className={styles.form}>
+              <div className={styles.avatarPicker}>
+                <div className={styles.avatarPreview}>
+                  {avatar ? (
+                    <img src={avatar} alt="Avatar" />
+                  ) : (
+                    <div className={styles.avatarPlaceholder}>{name[0] || '?'}</div>
+                  )}
+                  <label className={styles.avatarLabel}>
+                    تغيير الصورة
+                    <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ display: 'none' }} />
+                  </label>
+                </div>
+              </div>
               <div className={styles.field}>
                 <label>الاسم الكامل</label>
                 <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="اسمك بالكامل" />
