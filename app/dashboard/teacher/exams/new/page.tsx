@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
-import { Plus, Trash2, Settings2, Save, Layout, HelpCircle, CheckCircle, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Settings2, Save, Layout, HelpCircle, CheckCircle, AlertCircle, Download, FileSpreadsheet, ChevronDown } from 'lucide-react';
 import styles from './NewExam.module.css';
+import * as XLSX from 'xlsx';
 import { useRouter } from 'next/navigation';
 import insforge from '@/lib/insforge';
 
@@ -46,6 +47,7 @@ export default function NewExamPage() {
   const [qs, setQs]   = useState<Question[]>([]);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg]       = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [showExcelMenu, setShowExcelMenu] = useState(false);
 
   const [exam, setExam] = useState({
     title: '', description: '',
@@ -136,6 +138,109 @@ export default function NewExamPage() {
     }
   };
 
+  // ===== Excel Import/Export =====
+  const downloadTemplate = () => {
+    const data = [
+      { 'Type': 'mcq', 'Content': 'ما هي عاصمة مصر؟', 'خيار 1': 'القاهرة', 'خيار 2': 'الإسكندرية', 'خيار 3': 'طنطا', 'خيار 4': 'المنصورة', 'الإجابة الصحيحة': 'القاهرة' },
+      { 'Type': 'tf', 'Content': 'الشمس تشرق من الغرب', 'خيار 1': 'صح', 'خيار 2': 'خطأ', 'خيار 3': '', 'خيار 4': '', 'الإجابة الصحيحة': 'خططأ' },
+      { 'Type': 'translate', 'Content': 'I love programming', 'خيار 1': '', 'خيار 2': '', 'خيار 3': '', 'خيار 4': '', 'الإجابة الصحيحة': 'أنا أحب البرمجة' },
+      { 'Type': 'essay', 'Content': 'تحدث عن أهمية التعليم', 'خيار 1': '', 'خيار 2': '', 'خيار 3': '', 'خيار 4': '', 'الإجابة الصحيحة': '' },
+      { 'Type': 'match', 'Content': 'Apple', 'خيار 1': '', 'خيار 2': '', 'خيار 3': '', 'خيار 4': '', 'الإجابة الصحيحة': 'تفاحة' },
+      { 'Type': 'match', 'Content': 'Orange', 'خيار 1': '', 'خيار 2': '', 'خيار 3': '', 'خيار 4': '', 'الإجابة الصحيحة': 'برتقالة' },
+    ];
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Questions Template");
+    XLSX.writeFile(wb, "exam_template.xlsx");
+  };
+
+  const handleImportExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const bstr = event.target?.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const data: any[] = XLSX.utils.sheet_to_json(ws);
+
+        const newQuestions: Question[] = [];
+        let currentMatchingQuestion: Question | null = null;
+
+        data.forEach((row) => {
+          const typeStr = (row.Type || '').toLowerCase().trim();
+          const content = String(row.Content || row['السؤال/النص'] || '');
+          const options = [row['خيار 1'], row['خيار 2'], row['خيار 3'], row['خيار 4']]
+            .filter(x => x !== undefined && x !== null && x !== '')
+            .map(String);
+          const correctAnswer = String(row['الإجابة الصحيحة'] || '');
+
+          if (typeStr === 'match') {
+            if (!currentMatchingQuestion) {
+              currentMatchingQuestion = {
+                ...mkQ('Matching'),
+                text: 'صل من العمود (أ) ما يناسبه من العمود (ب)',
+                matchLeft: [content],
+                matchRight: [correctAnswer],
+              };
+              newQuestions.push(currentMatchingQuestion);
+            } else {
+              currentMatchingQuestion.matchLeft.push(content);
+              currentMatchingQuestion.matchRight.push(correctAnswer);
+            }
+          } else {
+            currentMatchingQuestion = null; // reset grouping
+
+            if (typeStr === 'mcq') {
+              if (options.length < 2) {
+                console.warn(`MCQ question "${content}" has less than 2 options.`);
+                return;
+              }
+              const correctIdx = options.findIndex(o => o.trim() === correctAnswer.trim());
+              newQuestions.push({
+                ...mkQ('MCQ'),
+                text: content,
+                options: options,
+                correctMCQ: correctIdx !== -1 ? correctIdx : 0
+              });
+            } else if (typeStr === 'tf') {
+              newQuestions.push({
+                ...mkQ('TF'),
+                text: content,
+                correctTF: correctAnswer === 'صح' || correctAnswer.toLowerCase() === 'true' ? 'true' : 'false'
+              });
+            } else if (typeStr === 'translate') {
+              newQuestions.push({
+                ...mkQ('Translation'),
+                text: content,
+                modelAnswer: correctAnswer
+              });
+            } else if (typeStr === 'essay') {
+              newQuestions.push({
+                ...mkQ('Essay'),
+                text: content
+              });
+            }
+          }
+        });
+
+        if (newQuestions.length > 0) {
+          setQs(prev => [...prev, ...newQuestions]);
+          setMsg({ type: 'ok', text: `تم استيراد ${newQuestions.length} سؤال بنجاح.` });
+        } else {
+          setMsg({ type: 'err', text: 'لم يتم العثور على أسئلة صالحة في الملف.' });
+        }
+      } catch (err) {
+        setMsg({ type: 'err', text: 'خطأ في قراءة ملف الإكسيل.' });
+      }
+      e.target.value = '';
+    };
+    reader.readAsBinaryString(file);
+  };
+
   return (
     <div className={styles.container} dir="rtl">
       <div className={styles.header}>
@@ -197,7 +302,34 @@ export default function NewExamPage() {
       {tab === 'questions' && (
         <div className={styles.qLayout}>
           <aside className={styles.qSidebar}>
-            <h3>نوع السؤال</h3>
+            <div className={styles.excelActions}>
+              <button 
+                className={styles.dropdownToggle} 
+                onClick={() => setShowExcelMenu(!showExcelMenu)}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <FileSpreadsheet size={16} />
+                  <span>إدارة ملف الإكسيل</span>
+                </div>
+                <ChevronDown size={14} style={{ transform: showExcelMenu ? 'rotate(180deg)' : 'none', transition: '0.2s' }} />
+              </button>
+              
+              {showExcelMenu && (
+                <div className={styles.dropdownContent}>
+                  <button className={styles.menuItem} onClick={() => { downloadTemplate(); setShowExcelMenu(false); }}>
+                    <Download size={14} /> تحميل قالب الإكسيل الفارغ
+                  </button>
+                  <div className={styles.menuItemWrapper}>
+                    <button className={styles.menuItem}>
+                      <Plus size={14} /> استيراد الأسئلة من ملف
+                    </button>
+                    <input type="file" accept=".xlsx, .xls" onChange={(e) => { handleImportExcel(e); setShowExcelMenu(false); }} className={styles.fileInput} />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <h3 style={{ marginTop: '1rem' }}>إضافة سؤال يدوي</h3>
             {(['MCQ','TF','Matching','Translation','Essay'] as QType[]).map(t => (
               <button key={t} className={styles.addBtn} onClick={() => setQs(p => [...p, mkQ(t)])}>
                 <Plus size={14} />
