@@ -193,6 +193,7 @@ export default function AnalyticsPage() {
                       <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#2563eb', fontWeight: 600, textAlign: 'center' }}>انقر لعرض التحليل التفصيلي للأسئلة ←</p>
                     </CardContent>
                   </Card>
+                </div>
               </Link>
             ))}
           </div>

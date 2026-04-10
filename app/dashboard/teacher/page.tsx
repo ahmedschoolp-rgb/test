@@ -23,27 +23,27 @@ export default function TeacherDashboard() {
         // Load name from profiles table
         const profile = await getUserProfile(ud.user.id);
         setUserName(profile.name || ud.user.email?.split('@')[0] || 'معلم');
+
+        const { data, count: examsTotal } = await insforge.database
+          .from('exams')
+          .select('id, title, status, created_at', { count: 'exact' })
+          .eq('teacher_id', ud.user.id)
+          .order('created_at', { ascending: false })
+          .limit(4);
+
+        if (data) {
+          setExams(data);
+          setExamCount(examsTotal || data.length);
+        }
+
+        // Fetch students count
+        const { count: followersCount } = await insforge.database
+          .from('teacher_students')
+          .select('*', { count: 'exact', head: true })
+          .eq('teacher_id', ud.user.id);
+          
+        setStudentCount(followersCount || 0);
       }
-
-      const { data, count: examsTotal } = await insforge.database
-        .from('exams')
-        .select('id, title, status, created_at', { count: 'exact' })
-        .eq('teacher_id', ud.user.id)
-        .order('created_at', { ascending: false })
-        .limit(4);
-
-      if (data) {
-        setExams(data);
-        setExamCount(examsTotal || data.length);
-      }
-
-      // Fetch students count
-      const { count: followersCount } = await insforge.database
-        .from('teacher_students')
-        .select('*', { count: 'exact', head: true })
-        .eq('teacher_id', ud.user.id);
-        
-      setStudentCount(followersCount || 0);
       setLoading(false);
     };
     load();
