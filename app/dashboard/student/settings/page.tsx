@@ -51,7 +51,7 @@ export default function StudentSettingsPage() {
       if (!ud?.user?.id) throw new Error('no user');
       const { error } = await insforge.database
         .from('profiles')
-        .upsert([{ id: ud.user.id, name, avatar_url: avatar, role: 'student' }])
+        .upsert([{ id: ud.user.id, name, avatar_url: avatar }])
         .select();
       if (error) throw error;
       setMsg({ type: 'ok', text: 'تم حفظ الملف الشخصي بنجاح!' });

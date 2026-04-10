@@ -63,7 +63,7 @@ export default function SettingsPage() {
       
       const { error } = await insforge.database
         .from('profiles')
-        .upsert([{ id: userData.user.id, name, avatar_url: avatar, role: 'teacher' }])
+        .upsert([{ id: userData.user.id, name, avatar_url: avatar }])
         .select();
         
       if (error) throw error;

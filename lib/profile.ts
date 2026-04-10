@@ -11,9 +11,10 @@ export async function getUserProfile(userId: string): Promise<{ name: string; ro
     .eq('id', userId)
     .single();
 
+  const profile = data as any;
   return {
-    name: (data as any)?.name || '',
-    role: ((data as any)?.role as 'teacher' | 'student') || 'teacher',
-    avatar_url: (data as any)?.avatar_url,
+    name:       profile?.name       || '',
+    role:       profile?.role       || null,
+    avatar_url: profile?.avatar_url || null,
   };
 }
