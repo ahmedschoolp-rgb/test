@@ -65,7 +65,7 @@ export default function TeacherProfilePage({ params }: { params: { id: string } 
 
       // Am I following?
       const isAlreadyFollowing = (followersData || []).some(
-        (f: any) => f.student_id === ud.user.id
+        (f: any) => f.student_id === ud?.user?.id
       );
       setIsFollowing(isAlreadyFollowing);
 
@@ -77,7 +77,7 @@ export default function TeacherProfilePage({ params }: { params: { id: string } 
       const ratings = (ratingsData || []).map((r: any) => r.rating);
       setAvgRating(ratings.length > 0 ? ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length : 0);
       setRatingCount(ratings.length);
-      const myR = (ratingsData || []).find((r: any) => r.student_id === ud.user.id);
+      const myR = (ratingsData || []).find((r: any) => r.student_id === ud?.user?.id);
       if (myR) setMyRating(myR.rating);
 
       setLoading(false);
