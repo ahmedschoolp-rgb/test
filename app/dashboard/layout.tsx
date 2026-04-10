@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push('/login');
   };
 
-  const navItems = role === 'student' ? studentNav : teacherNav;
+  const navItems = role === 'student' ? studentNav : (role === 'teacher' ? teacherNav : []);
   const initial  = userName ? userName[0] : '؟';
 
   return (
@@ -112,8 +112,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
             </div>
             <div style={{ minWidth: 0 }}>
-              <p className={styles.userName}>{userName}</p>
-              <p className={styles.userRole}>{role === 'teacher' ? 'معلم' : 'طالب'}</p>
+              <p className={styles.userName}>{userName || 'جاري التحميل...'}</p>
+              {role && <p className={styles.userRole}>{role === 'teacher' ? 'معلم' : 'طالب'}</p>}
             </div>
           </div>
           <button className={styles.logoutBtn} onClick={handleLogout}>

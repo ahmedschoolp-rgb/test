@@ -63,8 +63,8 @@ export default function SettingsPage() {
       
       const { error } = await insforge.database
         .from('profiles')
-        .upsert([{ id: userData.user.id, name, avatar_url: avatar }])
-        .select();
+        .update({ name, avatar_url: avatar })
+        .eq('id', userData.user.id);
         
       if (error) throw error;
       setMsg({ type: 'ok', text: 'تم حفظ الملف الشخصي بنجاح!' });
