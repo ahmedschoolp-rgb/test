@@ -59,6 +59,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media (max-width: 640px) {
+  html {
+    font-size: 14px; /* Default is 16px. Scaling down helps everything feel more compact on mobile. */
+  }
+}
+
 [dir="rtl"] {
   text-align: right;
 }

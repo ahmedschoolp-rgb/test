@@ -2,10 +2,17 @@
 .container { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
-.header h1 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; }
-.header p  { color: #64748b; margin-top: 0.2rem; }
+.header h1 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; color: #1e293b; }
+@media (max-width: 640px) {
+  .header h1 { font-size: 1.25rem; }
+  .header p { font-size: 0.85rem; }
+}
 
 .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .actions { width: 100%; }
+  .actions button { flex: 1; font-size: 0.85rem; padding: 0.5rem 0.75rem; }
+}
 
 /* ===== Messages ===== */
 .successMsg, .errorMsg {
@@ -16,13 +23,26 @@
 .errorMsg   { background: #fee2e2; color: #991b1b; }
 
 /* ===== Tabs ===== */
-.tabs { display: flex; gap: 0.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0; }
+.tabs { 
+  display: flex; 
+  gap: 0.35rem; 
+  border-bottom: 2px solid #e2e8f0; 
+  padding-bottom: 0;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+.tabs::-webkit-scrollbar { display: none; } /* Hide scrollbar for Chrome, Safari and Opera */
 
 .tabBtn, .tabActive {
   display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.65rem 1.1rem; border: none; cursor: pointer;
-  font-size: 0.9rem; font-weight: 600; border-radius: 8px 8px 0 0;
+  padding: 0.65rem 1rem; border: none; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600; border-radius: 8px 8px 0 0;
   transition: all 0.2s;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .tabBtn, .tabActive { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
 }
 .tabBtn   { background: transparent; color: #64748b; }
 .tabBtn:hover { background: #f1f5f9; }
@@ -40,6 +60,11 @@
   padding: 0.65rem 0.9rem;
   border: 1px solid #e2e8f0; border-radius: 8px;
   font-size: 0.9rem; font-family: inherit;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  .fieldFull input, .field input,
+  .fieldFull textarea, .field textarea { font-size: 0.85rem; padding: 0.55rem 0.75rem; }
 }
 .fieldFull input:focus, .field input:focus,
 .fieldFull textarea:focus { outline: none; border-color: #2563eb; }
@@ -161,6 +186,10 @@
 
 .matchRow {
   display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.5rem; align-items: center;
+}
+@media (max-width: 500px) {
+  .matchRow { grid-template-columns: 1fr; gap: 0.35rem; }
+  .arrow { transform: rotate(90deg); margin: 0.2rem 0; }
 }
 .matchRow input {
   padding: 0.55rem 0.8rem; border: 1px solid #e2e8f0;
