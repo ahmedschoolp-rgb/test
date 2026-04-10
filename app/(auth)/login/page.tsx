@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import styles from './Auth.module.css';
-import { GraduationCap, BookOpen, ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
+import { GraduationCap, BookOpen, ArrowLeft, AlertCircle, CheckCircle, MessageCircle, Facebook } from 'lucide-react';
 import Link from 'next/link';
 import insforge from '@/lib/insforge';
 import { getUserProfile } from '@/lib/profile';
@@ -120,6 +120,19 @@ export default function LoginPage() {
             <p className={styles.footerText}>
               ليس لديك حساب؟ <Link href="/signup">إنشاء حساب جديد</Link>
             </p>
+
+            <div className={styles.devCredit}>
+              <p className={styles.devLabel}>تم التطوير بواسطة</p>
+              <p className={styles.devName}>Ahmed Magdy</p>
+              <div className={styles.devLinks}>
+                <a href="https://wa.me/201140440601" target="_blank" rel="noopener noreferrer" className={styles.devLink}>
+                  <MessageCircle size={14} /> 01140440601
+                </a>
+                <a href="https://www.facebook.com/share/18SxYqEHGU/" target="_blank" rel="noopener noreferrer" className={styles.devLink}>
+                  <Facebook size={14} /> فيسبوك
+                </a>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

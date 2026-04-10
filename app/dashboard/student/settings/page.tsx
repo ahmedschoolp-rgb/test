@@ -100,6 +100,11 @@ export default function StudentSettingsPage() {
                     <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ display: 'none' }} />
                   </label>
                 </div>
+                {avatar && (
+                  <button type="button" onClick={() => setAvatar(undefined)} className={styles.removeAvatarBtn}>
+                    حذف الصورة
+                  </button>
+                )}
               </div>
               <div className={styles.field}>
                 <label>الاسم الكامل</label>

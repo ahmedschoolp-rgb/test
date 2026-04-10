@@ -191,3 +191,45 @@
   width: 100%;
 }
 
+.devCredit {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background: var(--secondary);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.devLabel {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  margin-bottom: 0.1rem;
+}
+
+.devName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.4rem;
+}
+
+.devLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.devLink {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.devLink:hover {
+  color: var(--primary);
+}

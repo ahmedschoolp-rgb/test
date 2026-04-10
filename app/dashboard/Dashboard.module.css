@@ -228,20 +228,24 @@
 
 .devLinks {
   display: flex;
-  justify-content: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .devLink {
   color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
   transition: all 0.2s;
   display: flex;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .devLink:hover {
   color: #2563eb;
-  transform: translateY(-2px);
 }
 
 /* ===== MAIN ===== */

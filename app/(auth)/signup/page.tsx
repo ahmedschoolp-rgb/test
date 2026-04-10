@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import styles from '../login/Auth.module.css';
-import { GraduationCap, BookOpen, UserPlus, AlertCircle, CheckCircle, Mail } from 'lucide-react';
+import { GraduationCap, BookOpen, UserPlus, AlertCircle, CheckCircle, Mail, MessageCircle, Facebook } from 'lucide-react';
 import Link from 'next/link';
 import insforge from '@/lib/insforge';
 
@@ -18,9 +18,25 @@ export default function SignupPage() {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<Step>('form');
   const [verifyMethod, setVerifyMethod] = useState<string>('');
+  const [avatar, setAvatar] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [signedUpUserId, setSignedUpUserId] = useState<string | null>(null); // store from signUp
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setError('حجم الصورة كبير جداً (الأقصى 2MB)');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +72,7 @@ export default function SignupPage() {
         if (uid) {
           await insforge.database
             .from('profiles')
-            .upsert([{ id: uid, name, role }])
+            .upsert([{ id: uid, name, role, avatar_url: avatar }])
             .select();
         }
         window.location.href = `/dashboard/${role}`;
@@ -99,7 +115,7 @@ export default function SignupPage() {
       // Save name and role to profiles table
       const { error: profileErr } = await insforge.database
         .from('profiles')
-        .upsert([{ id: uid, name, role }])
+        .upsert([{ id: uid, name, role, avatar_url: avatar }])
         .select();
 
       if (profileErr) {
@@ -160,6 +176,19 @@ export default function SignupPage() {
                 {error && <div className={styles.errorBox}><AlertCircle size={16} /> {error}</div>}
 
                 <form onSubmit={handleSignup} className={styles.form}>
+                  <div className={styles.avatarPicker} style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                    <div className={styles.avatarPreview} style={{ position: 'relative', width: 80, height: 80, borderRadius: '50%', border: '3px solid #f1f5f9', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      {avatar ? (
+                        <img src={avatar} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <span style={{ fontSize: '1.5rem', fontWeight: 700, color: '#2563eb' }}>{name[0] || '?'}</span>
+                      )}
+                      <label style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', opacity: 0, cursor: 'pointer', transition: 'opacity 0.2s' }} onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')} onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}>
+                        صورة
+                        <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ display: 'none' }} />
+                      </label>
+                    </div>
+                  </div>
                   <div className={styles.inputGroup}>
                     <label>الاسم الكامل</label>
                     <input type="text" placeholder="أدخل اسمك بالكامل" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -225,6 +254,18 @@ export default function SignupPage() {
               </div>
             )}
 
+            <div className={styles.devCredit}>
+              <p className={styles.devLabel}>تم التطوير بواسطة</p>
+              <p className={styles.devName}>Ahmed Magdy</p>
+              <div className={styles.devLinks}>
+                <a href="https://wa.me/201140440601" target="_blank" rel="noopener noreferrer" className={styles.devLink}>
+                  <MessageCircle size={14} /> 01140440601
+                </a>
+                <a href="https://www.facebook.com/share/18SxYqEHGU/" target="_blank" rel="noopener noreferrer" className={styles.devLink}>
+                  <Facebook size={14} /> فيسبوك
+                </a>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

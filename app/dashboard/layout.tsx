@@ -106,9 +106,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <div className={styles.sidebarFooter}>
           <div className={styles.userCard}>
-            <div className={styles.avatarSm}>
+            <Link href={`/dashboard/${role}/settings`} className={styles.avatarSm} title="الإعدادات">
               {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
-            </div>
+            </Link>
             <div style={{ minWidth: 0 }}>
               <p className={styles.userName}>{userName || 'جاري التحميل...'}</p>
               {role && <p className={styles.userRole}>{role === 'teacher' ? 'معلم' : 'طالب'}</p>}
@@ -123,10 +123,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <p className={styles.devName}>Ahmed Magdy</p>
             <div className={styles.devLinks}>
               <a href="https://wa.me/201140440601" target="_blank" rel="noopener noreferrer" className={styles.devLink} title="WhatsApp">
-                <MessageCircle size={14} />
+                <MessageCircle size={14} /> 01140440601
               </a>
               <a href="https://www.facebook.com/share/18SxYqEHGU/" target="_blank" rel="noopener noreferrer" className={styles.devLink} title="Facebook">
-                <Facebook size={14} />
+                <Facebook size={14} /> فيسبوك
               </a>
             </div>
           </div>
@@ -143,9 +143,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <input type="text" placeholder="بحث..." />
           </div>
           <div className={styles.topRight}>
-            <div className={styles.avatarTop} title={userEmail}>
+            <Link href={`/dashboard/${role}/settings`} className={styles.avatarTop} title="الإعدادات">
               {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
-            </div>
+            </Link>
           </div>
         </header>
 

@@ -127,3 +127,19 @@
 .avatarPreview:hover .avatarLabel {
   opacity: 1;
 }
+
+.removeAvatarBtn {
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: opacity 0.2s;
+}
+
+.removeAvatarBtn:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
