@@ -1,0 +1,49 @@
+.container { display: flex; flex-direction: column; gap: 1.75rem; }
+.header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+.header h1 { font-family: 'Outfit', sans-serif; font-size: 1.75rem; font-weight: 700; }
+.header p  { color: #64748b; margin-top: 0.25rem; }
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  color: #94a3b8;
+}
+.searchBar input { border: none; width: 100%; font-size: 0.9rem; background: transparent; color: #1e293b; }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  color: #94a3b8;
+}
+.empty h3 { font-size: 1rem; font-weight: 700; color: #1e293b; }
+.empty p  { font-size: 0.875rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.card { border: none; box-shadow: 0 1px 4px rgba(0,0,0,0.07); transition: transform 0.2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.cardBody { padding: 1.25rem; }
+
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

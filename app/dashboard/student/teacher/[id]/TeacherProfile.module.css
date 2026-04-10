@@ -1,0 +1,100 @@
+.container { display: flex; flex-direction: column; gap: 2rem; }
+
+.backBtn {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: transparent; border: none; font-size: 0.95rem;
+  font-weight: 600; color: #64748b; cursor: pointer; align-self: flex-start;
+  padding: 0; transition: color 0.2s;
+}
+.backBtn:hover { color: #1e293b; }
+
+.spinner {
+  width: 40px; height: 40px; margin: 0 auto;
+  border: 4px solid #e2e8f0; border-top-color: #2563eb;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== Hero Card ===== */
+.heroCard { border: none; box-shadow: 0 4px 24px rgba(0,0,0,0.06); background: white; }
+
+.heroBody {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2.5rem !important; gap: 2rem; flex-wrap: wrap;
+}
+
+.heroLeft { display: flex; align-items: center; gap: 1.5rem; }
+
+.bigAvatar {
+  width: 80px; height: 80px; border-radius: 20px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; font-weight: 700; flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(37,99,235,0.2);
+}
+
+.heroName { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin-bottom: 0.4rem; }
+
+.starsRow { display: flex; align-items: center; gap: 2px; }
+.star {
+  background: none; border: none; cursor: pointer; padding: 0;
+  font-size: 1.4rem; color: #cbd5e1; transition: all 0.2s;
+}
+.star:hover { transform: scale(1.15); color: #f59e0b; }
+.starFilled { color: #f59e0b; }
+.starAvg { color: #fcd34d; }
+
+.ratingText { font-size: 0.9rem; color: #64748b; margin-right: 0.5rem; font-weight: 500; }
+
+.heroRight { display: flex; flex-direction: column; align-items: flex-end; gap: 1.5rem; }
+
+@media (max-width: 768px) {
+  .heroBody { flex-direction: column; align-items: center; text-align: center; }
+  .heroLeft { flex-direction: column; }
+  .heroRight { align-items: center; }
+}
+
+/* ===== Stats ===== */
+.statRow { display: flex; gap: 1rem; }
+.statBox {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0.75rem 1.25rem; background: #f8fafc; border-radius: 12px;
+  min-width: 80px; border: 1px solid #f1f5f9;
+}
+.statNum { font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; }
+.statLbl { font-size: 0.8rem; font-weight: 600; color: #64748b; }
+
+.followBtn { padding: 0.6rem 1.5rem; font-size: 1rem; display: flex; gap: 0.5rem; }
+
+/* ===== Exams Section ===== */
+.sectionTitle { font-size: 1.35rem; font-weight: 800; margin-bottom: 1rem; color: #0f172a; }
+
+.empty {
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  padding: 5rem 2rem; border: 2px dashed #e2e8f0; border-radius: 12px;
+  color: #94a3b8; font-size: 1rem; text-align: center;
+}
+
+.examGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+
+.examCard { border: 1px solid #f1f5f9; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: transform 0.2s; }
+.examCard:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+
+.examBody { display: flex; align-items: center; gap: 1rem; padding: 1.25rem !important; flex-wrap: wrap; }
+
+.examIcon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: #eff6ff; color: #2563eb;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.examInfo { flex: 1; min-width: 0; }
+.examInfo h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+
+.examDesc {
+  font-size: 0.82rem; color: #64748b; margin-bottom: 0.4rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.examMeta { display: flex; gap: 1rem; font-size: 0.78rem; color: #94a3b8; }
+.examMeta span { display: flex; align-items: center; gap: 0.3rem; }

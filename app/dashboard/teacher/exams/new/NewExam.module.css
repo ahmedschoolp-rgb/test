@@ -1,0 +1,206 @@
+/* ===== Layout ===== */
+.container { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+.header h1 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700; }
+.header p  { color: #64748b; margin-top: 0.2rem; }
+
+.actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+/* ===== Messages ===== */
+.successMsg, .errorMsg {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.875rem; font-weight: 500;
+}
+.successMsg { background: #dcfce7; color: #166534; }
+.errorMsg   { background: #fee2e2; color: #991b1b; }
+
+/* ===== Tabs ===== */
+.tabs { display: flex; gap: 0.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0; }
+
+.tabBtn, .tabActive {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.65rem 1.1rem; border: none; cursor: pointer;
+  font-size: 0.9rem; font-weight: 600; border-radius: 8px 8px 0 0;
+  transition: all 0.2s;
+}
+.tabBtn   { background: transparent; color: #64748b; }
+.tabBtn:hover { background: #f1f5f9; }
+.tabActive { background: #2563eb; color: white; }
+
+/* ===== Details Form ===== */
+.formGrid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.fieldFull { grid-column: 1/-1; display: flex; flex-direction: column; gap: 0.4rem; }
+.field     { display: flex; flex-direction: column; gap: 0.4rem; }
+.fieldFull label, .field label { font-size: 0.875rem; font-weight: 600; color: #374151; }
+.fieldFull input, .field input,
+.fieldFull textarea, .field textarea {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #e2e8f0; border-radius: 8px;
+  font-size: 0.9rem; font-family: inherit;
+}
+.fieldFull input:focus, .field input:focus,
+.fieldFull textarea:focus { outline: none; border-color: #2563eb; }
+
+@media (max-width: 640px) { .formGrid { grid-template-columns: 1fr; } }
+
+/* ===== Questions Layout ===== */
+.qLayout {
+  display: grid; grid-template-columns: 200px 1fr; gap: 1.25rem; align-items: start;
+}
+@media (max-width: 700px) { .qLayout { grid-template-columns: 1fr; } }
+
+.qSidebar {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+  padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; position: sticky; top: 70px;
+}
+.qSidebar h3 { font-size: 0.875rem; font-weight: 700; color: #374151; margin-bottom: 0.25rem; }
+
+.addBtn {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 0.9rem; border: 1px solid #e2e8f0; border-radius: 8px;
+  background: #f8fafc; color: #374151; font-size: 0.85rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; text-align: right; width: 100%;
+}
+.addBtn:hover { background: #2563eb; color: white; border-color: #2563eb; }
+
+.qList { display: flex; flex-direction: column; gap: 1rem; }
+
+.emptyQ {
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  padding: 3rem; text-align: center; border: 2px dashed #e2e8f0; border-radius: 12px;
+  color: #94a3b8; font-size: 0.9rem;
+}
+
+/* ===== Question Card ===== */
+.qCard { border: 1px solid #e2e8f0 !important; box-shadow: none; }
+
+.qHead {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.75rem 1.25rem; border-bottom: 1px solid #f1f5f9;
+}
+
+.qBadge {
+  font-size: 0.8rem; font-weight: 700; color: #2563eb;
+  background: #eff6ff; padding: 0.25rem 0.75rem; border-radius: 20px;
+}
+
+.pointInput {
+  width: 52px; padding: 0.3rem 0.5rem; border: 1px solid #e2e8f0;
+  border-radius: 6px; font-size: 0.85rem; margin-right: 0.35rem; text-align: center;
+}
+
+.delBtn {
+  background: transparent; border: none; color: #dc2626;
+  cursor: pointer; padding: 0.3rem; border-radius: 6px;
+}
+.delBtn:hover { background: #fee2e2; }
+
+.qBody { display: flex; flex-direction: column; gap: 1rem; }
+
+.qText {
+  width: 100%; padding: 0.65rem 0.9rem;
+  border: 1px solid #e2e8f0; border-radius: 8px;
+  font-size: 0.9rem; font-family: inherit; resize: vertical;
+}
+.qText:focus { outline: none; border-color: #2563eb; }
+
+.hint { font-size: 0.8rem; color: #64748b; }
+
+/* ===== MCQ ===== */
+.mcq { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.optRow {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.5rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 8px;
+  transition: border-color 0.2s;
+}
+.optCorrect { border-color: #10b981 !important; background: #f0fdf4; }
+
+.radioBtn {
+  min-width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid #cbd5e1; background: #f8fafc;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; color: #374151;
+}
+.optCorrect .radioBtn { background: #10b981; border-color: #10b981; color: white; }
+
+.optRow input {
+  flex: 1; border: none; background: transparent; font-size: 0.9rem; font-family: inherit;
+}
+.optRow input:focus { outline: none; }
+
+.addPairBtn {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 0.8rem; border: 1px dashed #2563eb; border-radius: 8px;
+  background: transparent; color: #2563eb; font-size: 0.82rem; cursor: pointer;
+  font-weight: 600; margin-top: 0.25rem; align-self: flex-start;
+}
+.addPairBtn:hover { background: #eff6ff; }
+
+/* ===== True / False ===== */
+.tf { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.tfButtons { display: flex; gap: 1rem; }
+
+.tfBtn {
+  flex: 1; padding: 0.75rem;
+  border: 2px solid #e2e8f0; border-radius: 10px;
+  font-size: 1rem; font-weight: 700; cursor: pointer;
+  background: #f8fafc; transition: all 0.2s;
+}
+.tfCorrect { border-color: #10b981; background: #f0fdf4; color: #166534; }
+.tfWrong   { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+.tfBtn:hover { border-color: #2563eb; background: #eff6ff; }
+
+/* ===== Matching ===== */
+.matching { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.matchRow {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.5rem; align-items: center;
+}
+.matchRow input {
+  padding: 0.55rem 0.8rem; border: 1px solid #e2e8f0;
+  border-radius: 8px; font-size: 0.9rem; font-family: inherit;
+}
+.matchRow input:focus { outline: none; border-color: #2563eb; }
+.arrow { color: #94a3b8; font-size: 1.1rem; text-align: center; }
+
+/* ===== Essay / Translation ===== */
+.essay { display: flex; flex-direction: column; gap: 0.5rem; }
+.essay textarea {
+  width: 100%; padding: 0.65rem 0.9rem;
+  border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit;
+  font-size: 0.9rem; resize: vertical;
+}
+.essay textarea:focus { outline: none; border-color: #2563eb; }
+
+/* ===== Settings toggles ===== */
+.settingsList { display: flex; flex-direction: column; gap: 1rem; }
+
+.settingRow {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 1rem; border-bottom: 1px solid #f1f5f9;
+}
+.settingRow:last-child { border-bottom: none; padding-bottom: 0; }
+
+.settingLabel { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+.settingHint  { font-size: 0.78rem; color: #64748b; }
+
+.toggle {
+  position: relative; width: 44px; height: 24px;
+  border-radius: 24px; border: none;
+  background: #cbd5e1; cursor: pointer; padding: 0;
+  transition: background 0.25s; flex-shrink: 0;
+}
+.toggleOn { background: #2563eb; }
+
+.toggleThumb {
+  position: absolute; top: 3px; right: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: white; transition: transform 0.25s; display: block;
+}
+.toggleOn .toggleThumb { transform: translateX(-20px); }
