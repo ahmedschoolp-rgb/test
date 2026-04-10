@@ -106,7 +106,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <div className={styles.sidebarFooter}>
           <div className={styles.userCard}>
-            <Link href={`/dashboard/${role}/settings`} className={styles.avatarSm} title="الإعدادات">
+            <Link href={`/dashboard/${role || 'student'}/settings`} className={styles.avatarSm} title="الإعدادات">
               {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
             </Link>
             <div style={{ minWidth: 0 }}>
@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <input type="text" placeholder="بحث..." />
           </div>
           <div className={styles.topRight}>
-            <Link href={`/dashboard/${role}/settings`} className={styles.avatarTop} title="الإعدادات">
+            <Link href={`/dashboard/${role || 'student'}/settings`} className={styles.avatarTop} title="الإعدادات">
               {avatarUrl ? <img src={avatarUrl} alt={userName} className={styles.avatarImg} /> : initial}
             </Link>
           </div>

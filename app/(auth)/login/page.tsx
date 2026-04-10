@@ -38,10 +38,10 @@ export default function LoginPage() {
 
       // Read role from profiles table (source of truth)
       const userId = data?.user?.id;
-      let userRole = 'teacher';
+      let userRole: 'teacher' | 'student' = 'student';
       if (userId) {
         const profile = await getUserProfile(userId);
-        userRole = profile.role;
+        userRole = profile.role || 'student';
       }
 
       window.location.href = `/dashboard/${userRole}`;
