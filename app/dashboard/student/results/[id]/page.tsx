@@ -20,7 +20,7 @@ export default function StudentResultDetails({ params }: { params: { id: string 
         .select('id, exam_id, score, answers, submitted_at, exams(title, time_limit)')
         .eq('id', params.id)
         .single();
-      
+
       if (!resData) {
         setLoading(false);
         return;
@@ -33,7 +33,7 @@ export default function StudentResultDetails({ params }: { params: { id: string 
         .select('*')
         .eq('exam_id', resData.exam_id)
         .order('order_index', { ascending: true });
-        
+
       setQuestions(qData || []);
       setLoading(false);
     };
@@ -55,8 +55,8 @@ export default function StudentResultDetails({ params }: { params: { id: string 
   return (
     <div style={{ direction: 'rtl', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <button 
-          onClick={() => router.back()} 
+        <button
+          onClick={() => router.back()}
           style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
           <ArrowRight size={18} /> العودة للنتائج
         </button>
@@ -66,20 +66,22 @@ export default function StudentResultDetails({ params }: { params: { id: string 
         </p>
       </div>
 
-      <Card style={{ textAlign: 'center', padding: '1.5rem', border: '2px solid #e2e8f0', background: '#f8fafc' }}>
-        <p style={{ color: '#64748b', fontWeight: 600, marginBottom: '0.5rem' }}>نتيجتك النهائية</p>
-        <div style={{
-          display: 'inline-block',
-          padding: '0.5rem 2rem', 
-          borderRadius: '30px', 
-          fontWeight: 800, 
-          fontSize: '1.5rem',
-          background: result.score >= 70 ? '#dcfce7' : result.score >= 50 ? '#fef9c3' : '#fee2e2',
-          color: result.score >= 70 ? '#166534' : result.score >= 50 ? '#854d0e' : '#991b1b',
-        }}>
-          {result.score !== null ? `${Math.round(result.score)}%` : 'تحت المراجعة'}
-        </div>
-      </Card>
+      <div style={{ textAlign: 'center', padding: '1.5rem', border: '2px solid #e2e8f0', background: '#f8fafc', borderRadius: '0.5rem' }}>
+        <Card>
+          <p style={{ color: '#64748b', fontWeight: 600, marginBottom: '0.5rem' }}>نتيجتك النهائية</p>
+          <div style={{
+            display: 'inline-block',
+            padding: '0.5rem 2rem',
+            borderRadius: '30px',
+            fontWeight: 800,
+            fontSize: '1.5rem',
+            background: result.score >= 70 ? '#dcfce7' : result.score >= 50 ? '#fef9c3' : '#fee2e2',
+            color: result.score >= 70 ? '#166534' : result.score >= 50 ? '#854d0e' : '#991b1b',
+          }}>
+            {result.score !== null ? `${Math.round(result.score)}%` : 'تحت المراجعة'}
+          </div>
+        </Card>
+      </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {questions.map((q, i) => {
@@ -100,13 +102,13 @@ export default function StudentResultDetails({ params }: { params: { id: string 
                   <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>{q.points} نقطة</span>
                 </div>
                 <p style={{ fontSize: '1.1rem', marginBottom: '1.5rem', color: '#1e293b' }}>{q.text}</p>
-                
+
                 <div style={{ background: '#f1f5f9', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
                   <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>إجابتك:</span>
                   <div style={{ fontWeight: 700, marginTop: '0.4rem', fontSize: '1rem' }}>
-                    {q.type === 'MCQ' && q.options && myAns !== undefined ? q.options[myAns] : 
-                     q.type === 'TF' ? (myAns === 'true' ? 'صح' : myAns === 'false' ? 'خطأ' : 'لم تُجب') :
-                     (myAns || 'لم تُجب')}
+                    {q.type === 'MCQ' && q.options && myAns !== undefined ? q.options[myAns] :
+                      q.type === 'TF' ? (myAns === 'true' ? 'صح' : myAns === 'false' ? 'خطأ' : 'لم تُجب') :
+                        (myAns || 'لم تُجب')}
                   </div>
                 </div>
 
@@ -114,7 +116,7 @@ export default function StudentResultDetails({ params }: { params: { id: string 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '1rem', color: isCorrect ? '#166534' : '#991b1b' }}>
                     {isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />}
                     {isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}
-                    
+
                     {!isCorrect && (
                       <span style={{ color: '#64748b', fontWeight: 500, marginRight: '1rem' }}>
                         (الإجابة الصحيحة: {q.type === 'MCQ' ? q.options?.[q.correct_answer] : q.correct_answer === 'true' ? 'صح' : 'خطأ'})
