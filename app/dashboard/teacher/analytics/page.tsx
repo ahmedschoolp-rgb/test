@@ -43,7 +43,7 @@ export default function AnalyticsPage() {
 
       const allResults = results || [];
       const totalResults = allResults.length;
-      
+
       let totalScore = 0;
       let passedCount = 0;
 
@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
             if (r.score >= 50) exPass++;
           }
         });
-        
+
         return {
           id: ex.id,
           title: ex.title,
@@ -164,29 +164,35 @@ export default function AnalyticsPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
             {examsStats.map((ex, i) => (
               <Link href={`/dashboard/teacher/analytics/${ex.id}`} key={i} style={{ textDecoration: 'none' }}>
-                <Card style={{ transition: 'transform 0.2s', cursor: 'pointer' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                  <CardContent style={{ padding: '1.5rem' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1rem', color: '#0f172a' }}>{ex.title} </h3>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                      <span style={{ color: '#64748b' }}>إجمالي التسليمات:</span>
-                      <span style={{ fontWeight: 700, color: '#1e293b' }}>{ex.total}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                      <span style={{ color: '#64748b' }}>الدرجة المتوسطة:</span>
-                      <span style={{ fontWeight: 700, color: ex.avg >= 70 ? '#166534' : ex.avg >= 50 ? '#ca8a04' : '#dc2626' }}>{ex.avg}%</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
-                      <span style={{ color: '#64748b' }}>معدل النجاح:</span>
-                      <span style={{ fontWeight: 700, color: '#1e293b' }}>{ex.passRate}%</span>
-                    </div>
+                <div
+                  style={{ transition: 'transform 0.2s', cursor: 'pointer' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  <Card>
+                    {/* باقي الكود اللي جوه الكارد زي ما هو */}
+                    <CardContent style={{ padding: '1.5rem' }}>
+                      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1rem', color: '#0f172a' }}>{ex.title} </h3>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                        <span style={{ color: '#64748b' }}>إجمالي التسليمات:</span>
+                        <span style={{ fontWeight: 700, color: '#1e293b' }}>{ex.total}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                        <span style={{ color: '#64748b' }}>الدرجة المتوسطة:</span>
+                        <span style={{ fontWeight: 700, color: ex.avg >= 70 ? '#166534' : ex.avg >= 50 ? '#ca8a04' : '#dc2626' }}>{ex.avg}%</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
+                        <span style={{ color: '#64748b' }}>معدل النجاح:</span>
+                        <span style={{ fontWeight: 700, color: '#1e293b' }}>{ex.passRate}%</span>
+                      </div>
 
-                    <div style={{ width: '100%', height: '8px', background: '#e2e8f0', borderRadius: '4px', marginTop: '1.5rem', overflow: 'hidden' }}>
-                      <div style={{ width: `${ex.avg}%`, height: '100%', background: ex.avg >= 70 ? '#22c55e' : ex.avg >= 50 ? '#eab308' : '#ef4444' }} />
-                    </div>
-                    
-                    <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#2563eb', fontWeight: 600, textAlign: 'center' }}>انقر لعرض التحليل التفصيلي للأسئلة ←</p>
-                  </CardContent>
-                </Card>
+                      <div style={{ width: '100%', height: '8px', background: '#e2e8f0', borderRadius: '4px', marginTop: '1.5rem', overflow: 'hidden' }}>
+                        <div style={{ width: `${ex.avg}%`, height: '100%', background: ex.avg >= 70 ? '#22c55e' : ex.avg >= 50 ? '#eab308' : '#ef4444' }} />
+                      </div>
+
+                      <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#2563eb', fontWeight: 600, textAlign: 'center' }}>انقر لعرض التحليل التفصيلي للأسئلة ←</p>
+                    </CardContent>
+                  </Card>
               </Link>
             ))}
           </div>
