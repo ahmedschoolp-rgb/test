@@ -48,7 +48,7 @@ export default function SignupPage() {
       if (data?.user?.id) setSignedUpUserId(data.user.id);
 
       if (data?.requireEmailVerification) {
-        setVerifyMethod(data.verifyEmailMethod || 'code');
+        setVerifyMethod((data as any).verifyEmailMethod || 'code');
         setStep('verify');
       } else if (data?.accessToken) {
         // No verification needed — save profile and redirect
@@ -128,7 +128,7 @@ export default function SignupPage() {
           <p>ابدأ رحلتك التعليمية مع أفضل منصة لإدارة الامتحانات.</p>
         </div>
       </div>
-      
+
       <div className={styles.authForm}>
         <Card className={styles.formCard}>
           <CardHeader>
