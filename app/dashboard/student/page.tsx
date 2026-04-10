@@ -12,7 +12,6 @@ import { getUserProfile } from '@/lib/profile';
 interface TeacherCard {
   id: string;
   name: string;
-  avatarUrl?: string;
   examCount: number;
   studentCount: number;
   avgRating: number;
@@ -62,7 +61,7 @@ export default function StudentDashboard() {
       // Fetch teacher profiles (role = 'teacher')
       const { data: teacherProfiles } = await insforge.database
         .from('profiles')
-        .select('id, name, avatar_url')
+        .select('id, name')
         .eq('role', 'teacher');
 
       if (!teacherProfiles || teacherProfiles.length === 0) {
@@ -106,7 +105,6 @@ export default function StudentDashboard() {
           return {
             id:           t.id,
             name:         t.name || 'معلم',
-            avatarUrl:    t.avatar_url,
             examCount:    (exams || []).length,
             studentCount,
             avgRating,
@@ -189,13 +187,7 @@ export default function StudentDashboard() {
                     <div className={styles.teacherHeaderWrap}>
                       <Link href={`/dashboard/student/teacher/${teacher.id}`} className={styles.teacherHeaderLink}>
                         <div className={styles.teacherHeader}>
-                          <div className={styles.teacherAvatar}>
-                            {teacher.avatarUrl ? (
-                              <img src={teacher.avatarUrl} alt={teacher.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            ) : (
-                              teacher.name[0]
-                            )}
-                          </div>
+                          <div className={styles.teacherAvatar}>{teacher.name[0]}</div>
                           <div>
                             <h3 className={styles.teacherName}>{teacher.name}</h3>
                             <div className={styles.ratingTextClickable}>عرض الصفحة الشخصية ←</div>

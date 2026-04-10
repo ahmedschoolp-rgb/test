@@ -9,7 +9,6 @@ import insforge from '@/lib/insforge';
 interface Student {
   id: string;
   name: string;
-  avatarUrl?: string;
   joinDate: string;
 }
 
@@ -40,7 +39,7 @@ export default function StudentsPage() {
       // Fetch profiles manually
       const { data: profiles } = await insforge.database
         .from('profiles')
-        .select('id, name, avatar_url')
+        .select('id, name')
         .in('id', studentIds);
 
       const loaded = data.map((row: any) => {
@@ -48,7 +47,6 @@ export default function StudentsPage() {
         return {
           id: row.student_id,
           name: p?.name || 'طالب غير معروف',
-          avatarUrl: p?.avatar_url,
           joinDate: row.created_at,
         };
       });
@@ -97,12 +95,8 @@ export default function StudentsPage() {
             <Card key={student.id} className={styles.card}>
               <CardContent className={styles.cardBody}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                   <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                     {student.avatarUrl ? (
-                       <img src={student.avatarUrl} alt={student.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                     ) : (
-                       <GraduationCap size={20} />
-                     )}
+                   <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                     <GraduationCap size={20} />
                    </div>
                    <div>
                      <p style={{ fontWeight: 700, fontSize: '1rem' }}>{student.name}</p>
