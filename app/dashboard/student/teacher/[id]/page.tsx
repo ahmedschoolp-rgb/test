@@ -25,16 +25,16 @@ export default function TeacherProfilePage({ params }: { params: { id: string } 
   const router = useRouter();
   const teacherId = params.id;
 
-  const [teacherName,   setTeacherName]   = useState('');
-  const [exams,         setExams]         = useState<Exam[]>([]);
-  const [studentCount,  setStudentCount]  = useState(0);
-  const [avgRating,     setAvgRating]     = useState(0);
-  const [ratingCount,   setRatingCount]   = useState(0);
-  const [myRating,      setMyRating]      = useState<number | null>(null);
-  const [isFollowing,   setIsFollowing]   = useState(false);
+  const [teacherName, setTeacherName] = useState('');
+  const [exams, setExams] = useState<Exam[]>([]);
+  const [studentCount, setStudentCount] = useState(0);
+  const [avgRating, setAvgRating] = useState(0);
+  const [ratingCount, setRatingCount] = useState(0);
+  const [myRating, setMyRating] = useState<number | null>(null);
+  const [isFollowing, setIsFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
-  const [loading,       setLoading]       = useState(true);
-  const [userId,        setUserId]        = useState('');
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     const load = async () => {
@@ -113,9 +113,9 @@ export default function TeacherProfilePage({ params }: { params: { id: string } 
       .select();
     setMyRating(n);
     // Recalculate average locally
-    const newCount  = myRating === null ? ratingCount + 1 : ratingCount;
-    const oldTotal  = avgRating * ratingCount;
-    const newTotal  = myRating === null ? oldTotal + n : oldTotal - (myRating) + n;
+    const newCount = myRating === null ? ratingCount + 1 : ratingCount;
+    const oldTotal = avgRating * ratingCount;
+    const newTotal = myRating === null ? oldTotal + n : oldTotal - (myRating) + n;
     setAvgRating(newTotal / newCount);
     setRatingCount(newCount);
   };
@@ -144,7 +144,7 @@ export default function TeacherProfilePage({ params }: { params: { id: string } 
               <h1 className={styles.heroName}>{teacherName}</h1>
               {/* Stars */}
               <div className={styles.starsRow}>
-                {[1,2,3,4,5].map(n => (
+                {[1, 2, 3, 4, 5].map(n => (
                   <button key={n}
                     className={`${styles.star} ${n <= (myRating || 0) ? styles.starFilled : n <= Math.round(avgRating) ? styles.starAvg : ''}`}
                     onClick={() => rate(n)} title={`${n} نجوم`}>★</button>
@@ -180,7 +180,7 @@ export default function TeacherProfilePage({ params }: { params: { id: string } 
             <Button
               onClick={toggleFollow}
               loading={followLoading}
-              variant={isFollowing ? 'outline' : 'default'}
+              variant={isFollowing ? 'outline' : 'primary'}
               className={styles.followBtn}
             >
               {!followLoading && (
