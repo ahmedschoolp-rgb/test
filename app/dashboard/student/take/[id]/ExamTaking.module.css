@@ -13,10 +13,17 @@
 .header {
   background: var(--background);
   border-bottom: 1px solid var(--border);
-  padding: 1rem 2.5rem;
+  padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .header { padding: 0.75rem 1rem; flex-direction: column; gap: 0.75rem; align-items: stretch; text-align: center; }
+  .examInfo h2 { font-size: 1.1rem; }
+  .proctorInfo { justify-content: center; gap: 1rem; }
+  .timer { font-size: 1.25rem; }
 }
 
 .examInfo h2 {
@@ -78,6 +85,19 @@
   overflow-y: auto;
 }
 
+@media (max-width: 1024px) {
+  .content { padding: 1.5rem 2rem; }
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .navBar { display: none; } /* Hide quick navigation on mobile per user request */
+}
+
 .questionContainer {
   display: flex;
   flex-direction: column;
@@ -94,6 +114,12 @@
   font-weight: 600;
   line-height: 1.5;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+  .questionText { font-size: 1.15rem; margin-bottom: 1.5rem; }
+  .optionLabel { padding: 1rem; }
+  .optionLabel span { font-size: 1rem; }
 }
 
 .optionsList {
@@ -139,6 +165,12 @@
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .footer { margin-top: 0.5rem; }
+  .footer button { flex: 1; padding: 0.75rem 0.5rem; font-size: 0.9rem; }
 }
 
 .navBar {
@@ -265,6 +297,11 @@
 /* ===== Matching ===== */
 .matchingGrid { display: flex; flex-direction: column; gap: 0.75rem; }
 .matchRow { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.75rem; align-items: center; }
+
+@media (max-width: 640px) {
+  .matchRow { grid-template-columns: 1fr; gap: 0.5rem; }
+  .matchRow span:nth-child(2) { transform: rotate(90deg); text-align: center; }
+}
 .matchItem { padding: 0.65rem 1rem; background: #f1f5f9; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
 .matchInput {
   padding: 0.65rem 0.875rem; border: 1px solid #e2e8f0;

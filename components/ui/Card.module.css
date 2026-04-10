@@ -26,3 +26,7 @@
 .content {
   padding: 1.5rem;
 }
+
+@media (max-width: 640px) {
+  .header, .content { padding: 1rem; }
+}
